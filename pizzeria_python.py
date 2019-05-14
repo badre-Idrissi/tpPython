@@ -1,4 +1,65 @@
-menu={"Napo":["anchois",12,2]}
+menu={"Napo":[["anchois"],12,2]}
+
+def saveMenu(file_path, menu) :
+	##sauvegarder le menu dans le fichier file_path
+	fichier = open(file_path, 'w')
+	fichier.write("menu :\n")
+	fichier.write(str(menu))
+	fichier.close()
+
+def getMenuFromFile(file_path):
+	##recuperer le menu du fichier file_path
+	print("getMenu")
+def helpAdmin():
+	print(""" Help :
+				- addPizza pizzaName (ajouter une pizza au menu)
+				- addIngredient pizzaName ingredient (ajouter un ingrédient à une pizza)
+				- addPrix pizzaName prix (ajouter un prix à une pizza)
+				- addQte pizzaName qte (ajouter une qte à une pizza)
+				- exit (sortir du menu admin)
+		""")
+
+def addPizza(option):
+	global menu
+	_, pizzaName = option.split(" ")
+	menu[pizzaName] = [[], 0, 0]
+def addIngredient(option):
+	global menu
+	_, pizza, ingredient = option.split(" ")
+	if not pizza in menu:
+		menu[pizza] = [[], 0, 0]
+	menu.get(pizza)[0].append(ingredient)
+
+def addPrix(option):
+	global menu
+	_, pizza, prix = option.split(" ")
+	if pizza in menu:
+		menu.get(pizza)[1] = int(prix)
+def addQte(option):
+	global menu
+	_, pizza, quantite = option.split(" ")
+	if pizza in menu:
+		menu.get(pizza)[2] += int(quantite)
+
+def helpClient():
+	print(""" Help :
+				- menu (afficher le menu)
+				- manger pizzaName (manger une pizza)
+				- exit (sortir du restaurant)
+			""")
+def displayMenu():
+	global menu
+	print(menu)
+def manger():
+	global menu
+	_, pizza = action.split(" ")
+	if pizza in menu and menu.get(pizza)[2] > 0:
+		print("bonap")
+		menu.get(pizza)[2] -= 1
+	else:
+		print("pizza non disponible")
+
+
 while True:
 	login = input("login : ")
 	if login == "exit":
@@ -9,30 +70,18 @@ while True:
 			if option == "exit":
 				break
 			if option == "help":
-				print(""" Help :
-				- addPizza pizzaName (ajouter une pizza au menu)
-				- addIngredient pizzaName ingredient (ajouter un ingrédient à une pizza)
-				- addPrix pizzaName prix (ajouter un prix à une pizza)
-				- addQte pizzaName qte (ajouter une qte à une pizza)
-				- exit (sortir du menu admin)
-				""")
+				helpAdmin()
 		#Traiter les commandes admin
 			if option.startswith("addPizza"):
-				_,pizzaName = option.split(" ")
-				menu[pizzaName]=[[],0,0]
+				addPizza(option)
 			if option.startswith("addIngredient"):
-				_,pizza,ingredient=option.split(" ")
-				if not pizza in menu :
-					menu[pizza]=[[],0,0]
-				menu.get(pizza)[0].append(ingredient)
+				addIngredient(option)
 			if option.startswith("addPrix"):
-				_,pizza,prix=option.split(" ")
-				if pizza in menu :
-					menu.get(pizza)[1]=int(prix)
+				addPrix(option)
 			if option.startswith("addQte"):
-				_,pizza,quantite=option.split(" ")
-				if pizza in menu:
-					menu.get(pizza)[2]+=int(quantite)
+				addQte(option)
+			if option.startswith("saveMenu"):
+				saveMenu("./menu.txt",menu)
 		
 	if login=="client":
 		while True:
@@ -41,23 +90,13 @@ while True:
 				print("Au revoir")
 				break
 			if action == "help":
-				print(""" Help :
-				- menu (afficher le menu)
-				- manger pizzaName (manger une pizza)
-				- exit (sortir du restaurant)
-				""")
+				helpClient()
 			if action =="menu":
-				print(menu)
+				displayMenu()
 			if action.startswith("manger"):
-				_,pizza = action.split(" ")
-				if pizza in menu and menu.get(pizza)[2]>0:
-					print("bonap")
-					menu.get(pizza)[2]-=1
-				else:
-					print("pizza non disponible")
+				manger(action)
 				
 			
 			
 			#Traiter les commandes client
-	
-		
+
