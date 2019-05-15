@@ -96,7 +96,5 @@ while True:
 			if action.startswith("manger"):
 				manger(action)
 				
-			
-			
 			#Traiter les commandes client
 
