@@ -1,7 +1,7 @@
-import MySQLdb
+import psycopg2
 
 # Open database connection
-db = MySQLdb.connect("localhost","testuser","test123","TESTDB" )
+db = psycopg2.connect("localhost","testuser","test123","TESTDB" )
 
 # prepare a cursor object using cursor() method
 cursor = db.cursor()

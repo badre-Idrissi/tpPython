@@ -1,56 +1,5 @@
-class Menu(object):
-    def __init__(self):
-        self.pizzas = []
-
-    def addPizza(self, pizza):
-        self.pizzas.append(pizza)
-
-    def removePizza(self, pizza_name):
-        for pizza in self.pizzas:
-            if pizza.getName() == pizza_name:
-                self.pizzas.remove(pizza)
-
-    def getPizza(self, pizzaname):
-        for pizza in self.pizzas:
-            if pizza.getName() == pizzaname:
-                return pizza
-
-
-    def __repr__(self):
-        s = "___ Menu ___\n\n"
-        for pizza in self.pizzas:
-            s += "\t" + str(pizza) + "\n"
-        s += "___________"
-        return s
-
-
-class Pizza(object):
-    def __init__(self, name):
-        self.name = name
-        self.prix = 0
-        self.ingredients = []
-        self.qte = 0
-
-    def getName(self):
-        return self.name
-
-    def addIngredient(self, ingredient):
-        self.ingredients.append(ingredient)
-
-    def removeIngredient(self, ingredient):
-        self.ingredients.remove(ingredient)
-
-    def fixerPrix(self, prix):
-        self.prix = prix
-
-    def addQuantite(self, qte):
-        self.qte += qte
-
-    def getQuantite(self):
-        return self.qte
-
-    def __repr__(self):
-        return f"Pizza : {self.name} {self.ingredients} prix: {self.prix} euros"
+from modules.menu import Menu
+from modules.pizza import Pizza
 
 menu = Menu()
 
